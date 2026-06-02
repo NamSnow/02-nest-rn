@@ -28,13 +28,17 @@ import { ReviewsModule } from '@/modules/reviews/reviews.module';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        console.log('MONGODB_URI =', configService.get<string>('MONGODB_URI'));
+
+        return {
+          uri: configService.get<string>('MONGODB_URI'),
+        };
+      },
       inject: [ConfigService],
-    })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
